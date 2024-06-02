@@ -29,6 +29,8 @@ class Clipnote extends CI_Controller {
     }
   }
 
+  
+
   function delete($id){
     $this->clipnote_model->delete($id);
     redirect(base_url());
@@ -63,7 +65,7 @@ class Clipnote extends CI_Controller {
 
           <span class="pull-right">
             <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
-            <button type="button" class="btn btn-xs btn-primary"><a id="copynote" href="'.base_url().'clipnote/copy/'.$row->id.'">Copy</a></button>
+            <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
             <button type="button" class="btn btn-xs btn-danger"><a id="deletenote" href="'.base_url().'clipnote/delete/'.$row->id.'">Delete</a></button>                            
           </span>          
         </li>        
@@ -80,12 +82,32 @@ class Clipnote extends CI_Controller {
 
   function fetchbyid($id){
     $data = $this->clipnote_model->get_record_by_id($id);
+    return $this->load->view('v_clipnote',$data); 
+  }
 
-    //var_dump($data);
-    //exit;
-    return $this->load->view('v_clipnote',$data);
-  
- 
+  function update(){
+    $id = $this->input->post('noteid');
+    $notes = $this->input->post('notes');
+    $tags = $this->input->post('tags');    
+    $updated_by = $this->input->post('updatedby');
+
+    $data = array(      
+      'notes' => $notes,
+      'tags' => $tags,      
+      'updated_by' => $updated_by
+    );
+
+    $where = array(
+      'id' => $id
+    );
+
+    $this->clipnote_model->update_data($where,$data,'notes');
+	  redirect('clipnote/index');   
+  }
+
+  function copy($id){
+    $data = $this->clipnote_model->get_record_by_id($id);
+    return $this->load->view('v_clipnote',$data); 
   }
 
 }

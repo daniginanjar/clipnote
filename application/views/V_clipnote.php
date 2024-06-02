@@ -12,7 +12,13 @@
     <!-- Add CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
-    <script></script>
+    <script>
+      function copynote(notes){
+        document.getElementById("tempcopy").value = notes;
+        var tempcopy = document.getElementById("tempcopy").value;
+        alert(tempcopy);
+      }
+    </script>
 
   </head>
   <body>
@@ -30,10 +36,12 @@
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container"> 
     <br />
     <br />
     <br />
+
+    <textarea name="tempcopy" class="form-control" id="tempcopy" rows="3" ></textarea>
     
     <div class="row">
       <div class="col-md-6 col-xs-6" style="background-color:;">
@@ -44,23 +52,31 @@
 
           echo '
           <form action="'. base_url().'clipnote/update " method="POST" class="float-left">
-          <h2 align="center">Update Notes</h2><br />
-          <div class="form-group">
-            <textarea name="notes" class="form-control" id="editor" rows="3"></textarea>
-          </div>
+            <h2 align="center">Update Notes</h2><br />
+            <div class="form-group">
+              <textarea name="tempnotes" class="form-control" id="tempnote" rows="3" style="display:none;">'.$notes.'</textarea>
+            </div>
 
-          <div class="form-group">
-            <input type="text" name="tags" class="form-control" id="tags" value="'.$tags.'" />
-          </div>
+            <div class="form-group">
+              <textarea name="notes" class="form-control" id="editor" rows="3"></textarea>
+            </div>
 
-          <div class="form-group">
-            <input type="text" name="noteid" class="form-control" id="ntoeid" value="'.$id.'" readonly />
-          </div>
+            <div class="form-group">
+              <input type="text" name="tags" class="form-control" id="tags" value="'.$tags.'" />
+            </div>
 
-          <div class="form-group">
-            <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit"/>
-            <input type="reset" name="reset" value="Reset" class="btn btn-warning" id="clearform" />
-          </div>
+            <div class="form-group">
+              <input type="text" name="noteid" class="form-control" id="ntoeid" value="'.$id.'" readonly style="display:none;" />
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="updatedby" class="form-control" id="updatedby" value="'.$updated_by.'" readonly style="display:none;" />
+            </div>
+
+            <div class="form-group">
+              <input type="submit" name="update" value="Update" class="btn btn-primary" id="update"/>
+              <input type="reset" name="reset" value="Reset" class="btn btn-warning" id="clearform" />
+            </div>
           </form>
           ';
 
@@ -69,7 +85,7 @@
           <script>           
 
             var myEditor; 
-            var notes = "<?php echo $notes; ?>";
+            var notes = document.getElementById("tempnote").value;
 
             //notes = notes.Vals.replace(/["']/g, "");
             
@@ -97,23 +113,23 @@
 
           echo '
           <form action="'. base_url().'clipnote/save " method="POST" class="float-left">
-          <h2 align="center">Create New Notes</h2><br />
-          <div class="form-group">
-            <textarea name="notes" class="form-control" id="editor" rows="3"></textarea>
-          </div>
+            <h2 align="center">Create New Notes</h2><br />
+            <div class="form-group">
+              <textarea name="notes" class="form-control" id="editor" rows="3" ></textarea>
+            </div>
 
-          <div class="form-group">
-            <input type="text" name="tags" class="form-control" id="tags" placeholder="Enter any tags, separate by comma (e.g. tech, system, outlook, etc)" />
-          </div>
+            <div class="form-group">
+              <input type="text" name="tags" class="form-control" id="tags" placeholder="Enter any tags, separate by comma (e.g. tech, system, outlook, etc)" />
+            </div>
 
-          <div class="form-group">
-            <input type="text" name="noteid" class="form-control" id="ntoeid" placeholder="note id" readonly />
-          </div>
+            <div class="form-group">
+              <input type="text" name="noteid" class="form-control" id="ntoeid" placeholder="note id" readonly style="display:none;" />
+            </div>
 
-          <div class="form-group">
-            <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit"/>
-            <input type="reset" name="reset" value="Reset" class="btn btn-warning" id="clearform" />
-          </div>
+            <div class="form-group">
+              <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit"/>
+              <input type="reset" name="reset" value="Reset" class="btn btn-warning" id="clearform" />
+            </div>
           </form>
           ';
 
@@ -141,8 +157,6 @@
         }
         ?>
         
-        
-  
         <br />
    
         <h5 id="saveresult"></h5> 
@@ -218,6 +232,8 @@ $(document).ready(function(){
 
   $('#refresh').click(function(){
     load_data();
+    document.getElementById("search_text").value = '';
+    document.getElementById("search_text").focus();
   });
 
   $('#deletenote').click(function(){
@@ -240,7 +256,9 @@ $(document).ready(function(){
     document.getElementById('tags').value = '';
     myEditor.setData( '' );
     document.getElementById("submit").value = "Submit";
-  })
+  });
+
+  
 
   $('#search_text').keyup(function(){
     var search = $(this).val();

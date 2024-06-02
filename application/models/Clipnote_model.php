@@ -30,6 +30,11 @@ class clipnote_model extends CI_Model {
     function delete($id){
         return $this->db->delete('notes', array("id"=> $id));
     }
+
+    function update_data($where,$data){
+        $this->db->where($where);
+        $this->db->update('notes', $data);        
+    }
 }
 
 ?>
