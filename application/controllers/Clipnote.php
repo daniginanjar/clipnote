@@ -29,11 +29,16 @@ class Clipnote extends CI_Controller {
     }
   }
 
-  
-
-  function delete($id){
+  function delete(){
+    $id = $this->input->post('id');
     $this->clipnote_model->delete($id);
     redirect(base_url());
+  }
+
+  function copy(){
+    $id = $this->input->post('id');
+    $data = $this->clipnote_model->copy($id);
+    return $this->load->view('v_clipnote',$data); 
   }
 
   function fetch(){  
@@ -66,7 +71,8 @@ class Clipnote extends CI_Controller {
           <span class="pull-right">
             <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
             <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
-            <button type="button" class="btn btn-xs btn-danger"><a id="deletenote" href="'.base_url().'clipnote/delete/'.$row->id.'">Delete</a></button>                            
+            <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button>   
+
           </span>          
         </li>        
         </div>
@@ -82,7 +88,7 @@ class Clipnote extends CI_Controller {
 
   function fetchbyid($id){
     $data = $this->clipnote_model->get_record_by_id($id);
-    return $this->load->view('v_clipnote',$data); 
+    return $this->load->view('v_clipnote',$data) ;
   }
 
   function update(){
@@ -90,11 +96,13 @@ class Clipnote extends CI_Controller {
     $notes = $this->input->post('notes');
     $tags = $this->input->post('tags');    
     $updated_by = $this->input->post('updatedby');
+    $updated_time = date("Y/m/d h:i:s");
 
     $data = array(      
       'notes' => $notes,
       'tags' => $tags,      
-      'updated_by' => $updated_by
+      'updated_by' => $updated_by,
+      'updated_time' => $updated_time
     );
 
     $where = array(
@@ -105,9 +113,11 @@ class Clipnote extends CI_Controller {
 	  redirect('clipnote/index');   
   }
 
-  function copy($id){
+  function copynote(){
+    $id = $this->input->post('id');
     $data = $this->clipnote_model->get_record_by_id($id);
-    return $this->load->view('v_clipnote',$data); 
+    
+    echo $data['notes']; 
   }
 
 }
