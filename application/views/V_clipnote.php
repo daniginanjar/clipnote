@@ -1,32 +1,10 @@
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Clipnote App</title>
-    <!-- Add Jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-    <!-- Add Bootstrap -->    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />    
-    
-    <!-- Add CKEditor -->    
-    <script src="<?php echo base_url(); ?>assets/ckeditor5-build-classic/ckeditor.js"></script>
-    <script src="<?php echo base_url(); ?>assets/ckfinder/ckfinder.js"></script>
-  </head>
+  <?php $this->load->view('_partials/head.php') ?>
   <body>
 
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="<?php echo base_url(); ?>">Clipnote</a>
-      </div>
+  <?php $this->load->view('_partials/navbar.php') ?>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Password Change</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-      </ul>
-    </div>
-  </nav>
+  
 
   <div class="container"> 
     <br />
@@ -36,7 +14,7 @@
     <textarea name="tempcopy" class="form-control" id="tempcopy" rows="3" style="display:none"></textarea>
     
     <div class="row">
-      <div class="col-md-6 col-xs-6" style="background-color:;">
+      <div class="col-md-12 col-xs-12" style="background-color:;">
         <br />    
         
         <?php
@@ -159,7 +137,7 @@
         <h5 id="saveresult"></h5> 
       </div>
 
-      <div id="notegrid" class="col-md-6 col-xs-6" style="">
+      <div id="notegrid" class="col-md-12 col-xs-12" style="">
         <br />
         <h2 align="center">Search Any Notes</h2><br />
         <div class="form-group">
@@ -178,15 +156,7 @@
         <br />
   
         <div id="result" class="overflow-auto" style="height: 550px; overflow-y: scroll;"></div>
-        <script>
-          function editnote()  {
-
-            document.getElementById('tags').value = '';
-            myEditor.setData( '' );
-            document.getElementById("submit").value = "Submit";
-
-          }
-        </script>
+        
       </div>
     </div>
   
@@ -197,189 +167,4 @@
  </body>
 </html>
 
-<script>
-
-function savenote(){
-  document.getElementById("tempnote").value = myEditor.getData();
-  var notes = document.getElementById("tempnote").value;
-  var tags = document.getElementById("tags").value;
-
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/save",
-    method:"POST",
-    data:{
-      notes:notes,
-      tags:tags
-    },
-    success:function(){
-      document.getElementById("saveresult").innerHTML = "Data Saved Successfuly";    
-
-      window.setTimeout(function() {
-        $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-          $(this).remove(); 
-        });
-      }, 5000);
-      
-      load_data();
-    }
-  })
-}
-
-function updatenote(){
-  document.getElementById("tempnote").value = myEditor.getData();
-  var notes = document.getElementById("tempnote").value;
-  var tags = document.getElementById("tags").value;
-  var noteid = document.getElementById("noteid").value;
-  var updatedby = document.getElementById("updatedby").value;  
-  var updatedtime = "<?php echo date("Y-M-d h:m:s"); ?>"  
-
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/update",
-    method:"POST",
-    data:{
-      notes:notes,
-      tags:tags,
-      noteid:noteid,
-      updatedby:updatedby,
-      updatedtime:updatedtime      
-    },
-    success:function(){
-      document.getElementById("saveresult").innerHTML = "Note Updated Successfuly";    
-
-      window.setTimeout(function() {
-        $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-          $(this).remove(); 
-        });
-      }, 5000);
-      
-      load_data();
-    }
-  })
-}
-
-function load_data(query){
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/fetch",
-    method:"POST",
-    data:{query:query},
-    success:function(data){
-      $('#result').html(data);
-    }
-  });
-};
-
-function copynote(id){
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/copynote",
-    method:"POST",
-    data:{id:id},
-    success:function(response){
-      $("#tempcopy").html(response);            
-
-      var copyText = document.getElementById("tempcopy");
-
-      // Select the text field
-      copyText.select();
-      copyText.setSelectionRange(0, 99999); // For mobile devices
-
-      // Copy the text inside the text field
-      navigator.clipboard.writeText(copyText.value);
-  
-      document.getElementById("saveresult").innerHTML = "Note copied to Clipboard";
-
-      window.setTimeout(function() {
-        $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-          $(this).remove(); 
-        });
-      }, 5000);
-      
-    }
-  });
-}
-
-function deletenote(id){
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/delete",
-    method:"POST",
-    data:{id:id},
-    success:function(){
-      document.getElementById("saveresult").innerHTML = "Note Deleted Successfuly"; 
-
-      window.setTimeout(function() {
-        $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-          $(this).remove(); 
-        });
-      }, 5000);
-
-      window.location.replace("<?php echo base_url(); ?>");
-    }
-  });
-
-}
-
-function clearformsave(){
-  myEditor.setData("");
-  document.getElementById('tags').value = '';
-  document.getElementById('tempnote').value = '';
-  myEditor.editing.view.focus();  
-}
-
-function clearformupdate(){
-  myEditor.setData("");
-  document.getElementById('tags').value = '';
-  document.getElementById('tempnote').value = '';
-  document.getElementById("noteid").readOnly = false;
-  document.getElementById("updatedby").readOnly = false;
-  document.getElementById('noteid').value = '';
-  document.getElementById('updatedby').value = '';
-  // document.getElementById("noteid").readOnly = true;
-  // document.getElementById("updatedby").readOnly = true;  
-  document.getElementById('noteid').setAttribute('readonly', true);
-  myEditor.editing.view.focus(); 
-}
-
-$(document).ready(function(){
-
-  load_data();
-
-  
-
-  
-
-  $('form').on('submit',function(e){
-    e.preventDefault();
-    $.ajax({
-      type:$(this).attr('method'),
-      url:$(this).attr('action'),
-      data:$(this).serialize(),
-      success:function(){
-        document.getElementById("saveresult").innerHTML = "Data Saved Successfuly";    
-
-        window.setTimeout(function() {
-          $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-            $(this).remove(); 
-          });
-        }, 5000);
-        
-        load_data();
-      }
-    })
-  });
-
-  $('#refresh').click(function(){
-    load_data();
-    document.getElementById("search_text").value = '';
-    document.getElementById("search_text").focus();
-  });  
-
-  $('#search_text').keyup(function(){
-    var search = $(this).val();
-    if(search != ''){
-      load_data(search);
-    } else {
-      load_data();
-    }
-  });
-
-});
-</script>
+<?php $this->load->view('_partials/js.php') ?>

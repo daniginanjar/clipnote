@@ -61,18 +61,20 @@ class Clipnote extends CI_Controller {
       
         <li href="#" class="list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-between">      
-            <small class="text-muted" style="color:green"> <b>'.$row->updated_time.'</b></small>
-            <small class="text-muted" style="color:red"> <b>- Note ID('.$row->id.')</b></small>            
+            <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
+            <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
+            <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button> 
+            <small class="text-muted" style="color:green"> <b>Last Update :'.$row->updated_time.'</b></small>
+            <small class="text-muted" style="color:red; display:none;"> <b>- Note ID('.$row->id.')</b></small>            
           </div>
           
           <p class="mb-1">'.$row->notes.'</p>
-          <small class="text-muted style="color:blue"><b>TAGS: '.$row->tags.'</b></small>
+          <small class="text-muted " style="color:blue"><b>TAGS: '.$row->tags.'</b></small>          
 
           <span class="pull-right">
             <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
             <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
             <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button>   
-
           </span>          
         </li>        
         </div>
