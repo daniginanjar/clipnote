@@ -21,7 +21,7 @@
             <?php endif ?>
 
             <h1>Login</h1>	
-            <form action="/action_page.php" method="post">
+            <form action="<?php echo base_url('auth/login'); ?>" method="post">
                 <div class="form-group">
                     <label for="name">Email/Username</label>
                     <input type="text" name="username" value="<?= set_value('username') ?>" required class="form-control" id="username">

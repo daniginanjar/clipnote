@@ -17,7 +17,7 @@ class User extends CI_Controller {
         $data = array(
             'username' => $this->input->post('name'),
             'email' => $this->input->post('email'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+            'password' => md5($this->input->post('password'))
         );
         $this->User_model->insert_user($data);
         redirect('user');
@@ -41,7 +41,7 @@ class User extends CI_Controller {
         $data = array(
             'username' => $this->input->post('name'),
             'email' => $this->input->post('email'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+            'password' => md5($this->input->post('password'))
         );
         $this->User_model->update_user($id, $data);
         redirect('user');

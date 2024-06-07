@@ -155,7 +155,9 @@
         <br />
         <br />
   
-        <div id="result" class="overflow-auto" style="height: 550px; overflow-y: scroll;"></div>
+        <!-- <div id="result" class="overflow-auto" style="height: 550px; overflow-y: scroll;"></div> -->
+        <div id="result" class="overflow-auto" ></div>
+        
         
       </div>
     </div>
