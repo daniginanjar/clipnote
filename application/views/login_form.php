@@ -40,17 +40,22 @@
                     <label><input type="checkbox"> Remember me</label>
                 </div>
                 
-                <input type="submit" class="button button-primary" value="Login">
+                <!-- <input type="submit" class="button button-primary" value="Login"> -->
             </form>
+            <button name="login" class="btn btn-primary" id="login" onclick="login()">Login</button>
+            <br />
+            <br />
+            
+            <div class="alert alert-success" id="loginvalidation" hidden>
+                    
+            </div> 
+
+            
 
         </div>
         <div class="col-md-6 col-xs-6">
             <img src="https://media.istockphoto.com/id/1426988809/photo/security-password-login-online-concept-hands-typing-and-entering-username-and-password-of.webp?b=1&s=170667a&w=0&k=20&c=AJD5Wv30lmyILccJyMpQGhkmh0VhZ5WNDtk53MO1OVM=" class="img-rounded" alt="Cinque Terre">
         </div>
-
-        	
-
-		
 
     </div>
   </div>

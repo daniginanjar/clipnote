@@ -1,5 +1,39 @@
 <script>
 
+function login(){
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
+  var messagesuccess = ""
+
+  //alert(username);
+
+  $.ajax({
+    url:"<?php echo base_url(); ?>auth/login",
+    method:"POST",
+    data:{
+      username:username,
+      password:password
+    },
+    success:function(response){
+      if (document.getElementById("loginvalidation").classList.contains("alert-danger")){
+          document.getElementById("loginvalidation").classList.add("alert-success");
+          document.getElementById("loginvalidation").hidden = false;        
+        };    
+        
+        document.getElementById("loginvalidation").innerHTML = "<strong>Success!</strong> Login";
+
+        window.setTimeout(function() {
+          $("#loginvalidation").fadeTo(3000, 0).slideUp(3000, function(){
+            $(this).remove(); 
+          });
+        }, 5000);
+        
+        window.location.replace("<?php echo base_url(); ?>clipnote");      
+    }    
+  });
+
+}
+
 function savenote(){
   document.getElementById("tempnote").value = myEditor.getData();
   var notes = document.getElementById("tempnote").value;
@@ -16,7 +50,7 @@ function savenote(){
         document.getElementById("saveresult").innerHTML = "Data Saved Successfuly";    
 
         window.setTimeout(function() {
-            $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
+            $("#saveresult").fadeTo(3000, 0).slideUp(3000, function(){
             $(this).remove(); 
             });
         }, 5000);
@@ -121,6 +155,8 @@ function deletenote(id){
   });
 
 }
+
+
 
 function clearformsave(){
   myEditor.setData("");
