@@ -4,10 +4,11 @@
     <!-- Add Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-    <!-- Add Bootstrap -->    
+    <!-- Add Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />    
-    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />   
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">   -->
+
     <!-- Add CKEditor -->    
     <script src="<?php echo base_url(); ?>assets/ckeditor5-build-classic/ckeditor.js"></script>
     <script src="<?php echo base_url(); ?>assets/ckfinder/ckfinder.js"></script>

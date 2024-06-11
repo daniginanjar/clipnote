@@ -3,9 +3,7 @@
 function login(){
   var username = document.getElementById("username").value;
   var password = document.getElementById("password").value;
-  var messagesuccess = ""
-
-  //alert(username);
+  var messagesuccess = "";
 
   $.ajax({
     url:"<?php echo base_url(); ?>auth/login",
@@ -14,7 +12,7 @@ function login(){
       username:username,
       password:password
     },
-    success:function(response){
+    success:function(){
       if (document.getElementById("loginvalidation").classList.contains("alert-danger")){
           document.getElementById("loginvalidation").classList.add("alert-success");
           document.getElementById("loginvalidation").hidden = false;        
@@ -156,8 +154,6 @@ function deletenote(id){
 
 }
 
-
-
 function clearformsave(){
   myEditor.setData("");
   document.getElementById('tags').value = '';
@@ -182,26 +178,6 @@ function clearformupdate(){
 $(document).ready(function(){
 
   load_data();
-
-//   $('form').on('submit',function(e){
-//     e.preventDefault();
-//     $.ajax({
-//       type:$(this).attr('method'),
-//       url:$(this).attr('action'),
-//       data:$(this).serialize(),
-//       success:function(){
-//         document.getElementById("saveresult").innerHTML = "Data Saved Successfuly";    
-
-//         window.setTimeout(function() {
-//           $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
-//             $(this).remove(); 
-//           });
-//         }, 5000);
-        
-//         load_data();
-//       }
-//     })
-//   });
 
   $('#refresh').click(function(){
     load_data();

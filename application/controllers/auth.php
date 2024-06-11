@@ -1,91 +1,80 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_controller 
-{
-	private $_table = "users";
-	const SESSION_KEY = 'user_id';
-
-	function __construct(){
-		parent::__construct();		
-		$this->load->model('auth_model'); 
-	}
-
-	public function rules()
-	{
-		return [
-			[
-				'field' => 'username',
-				'label' => 'Username or Email',
-				'rules' => 'required'
-			],
-			[
-				'field' => 'password',
-				'label' => 'Password',
-				'rules' => 'required|max_length[255]'
-			]
-		];
-	}
+class Auth extends CI_Controller {
+    function __construct(){
+        parent::__construct();
+		$this->load->model('auth_model');
+    }
     
- 
 	function index(){
-		$this->load->view('login_form');			
-	}
- 
-	function login(){
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
-		$where = array(
-			'username' => $username,
-			'password' => md5($password)
-			);
-
-		$this->db->where('email', $username)->or_where('username', $username);
-		$query = $this->db->get($this->_table);
-		$user = $query->row();
-
-		// cek apakah user sudah terdaftar?
-		if (!$user) {
-			return FALSE;
-		}
-
-		// cek apakah password-nya benar?
-		if (!password_verify($password, $user->password)) {
-			return FALSE;
-		}
-
-		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->id]);
-		$this->_update_last_login($user->id);
-
-		return $this->session->has_userdata(self::SESSION_KEY);
-
-		$cek = $this->auth_model->cek_login("users",$where);  		
-
-		if($cek['name'] !=''){ 						
- 
-			$data_session = array(
-				'nama' => $cek['name'],                
-				'status' => "login"
-				);
- 
-			$this->session->set_userdata($data_session);
- 
-			// redirect(base_url("clipnote/index"));
-
-			return TRUE;
-
-			
- 
-		}else{
-			// echo "Username dan password salah !";
-
-			return FALSE;
-		}
-	}
- 
-	function logout(){
-		$this->session->sess_destroy();
-		redirect(base_url('auth'));
-	}
+        if($this->session->userdata('logged') !=TRUE){
+            $this->load->view('login_form');
+        }else{
+            $url=base_url('clipnote');
+            redirect($url);
+        };
+    }
     
+    function autentikasi(){
+        $email = $this->input->post('email');
+        $password = $this->input->post('pass');
+                
+        $validasi_email = $this->auth_model->query_validasi_email($email);
+        if($validasi_email->num_rows() > 0){
+			$passcheck = $validasi_email->row_array();
+
+            $validate_ps=$this->auth_model->query_validasi_email($email);
+            if(password_verify($password,$passcheck['password'])){
+                $x = $validate_ps->row_array();
+                if($x['user_status']=='1'){
+                    $this->session->set_userdata('logged',TRUE);
+                    $this->session->set_userdata('user',$email);
+                    $id=$x['id'];
+                    if($x['type']=='creator'){ //Creator
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Creator');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }else if($x['type']=='user'){ //User
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','User');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }
+                }else{
+                    $url=base_url('auth');
+                    echo $this->session->set_flashdata('msg','<span onclick="this.parentElement.style.display=`none`" class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h3>Uupps!</h3>
+                    <p>You are blocked</p>');
+                    redirect($url);
+                }
+            }else{
+                $url=base_url('auth');
+                echo $this->session->set_flashdata('msg','<span onclick="this.parentElement.style.display=`none`" class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h3>Uupps!</h3>
+                    <p>Wrong password</p>');
+                redirect($url);
+            }
+
+        }else{
+            $url=base_url('auth');
+            echo $this->session->set_flashdata('msg','<span onclick="this.parentElement.style.display=`none`" class="w3-button w3-large w3-display-topright">&times;</span>
+            <h3>Uupps!</h3>
+            <p>Wrong mail</p>');
+            redirect($url);
+        }
+
+    }
+
+    function logout(){
+        $this->session->sess_destroy();
+        $url=base_url('auth');
+        redirect($url);
+    }
+
 }

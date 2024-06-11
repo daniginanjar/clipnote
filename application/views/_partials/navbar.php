@@ -4,7 +4,7 @@
 
       <?php 
       
-        if($this->session->userdata('nama')){
+      if($this->session->userdata('access')=='Creator'){
 
       ?>
 
@@ -13,7 +13,7 @@
       </div>
 
       <ul class="nav navbar-nav navbar-right">        
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> <?php echo $this->session->userdata("nama"); ?></a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> <?php echo $this->session->userdata('name'); ?></a></li>
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Password Change</a></li>        
         <li><a href="<?php echo base_url(); ?>auth/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>

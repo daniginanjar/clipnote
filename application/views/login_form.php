@@ -7,58 +7,62 @@
   
 
   <div class="container"> 
-    <br />
-    <br />
-    <br />
-    
-    <div class="row">
-
-        <div class="col-md-6 col-xs-6">
-            <?php if($this->session->flashdata('message_login_error')): ?>
-                <div class="invalid-feedback">
-                        <?= $this->session->flashdata('message_login_error') ?>
-                </div>
-            <?php endif ?>
-
-            <h1>Login</h1>	
-            <form action="<?php echo base_url('auth/login'); ?>" method="post">
-                <div class="form-group">
-                    <label for="name">Email/Username</label>
-                    <input type="text" name="username" value="<?= set_value('username') ?>" required class="form-control" id="username">
-                    <div class="invalid-feedback">
-                        <?= form_error('username') ?>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  
+    <div class="w3-container">
+        <!-- <div class="w3-row">
+            <div class="w3-col" style="width:30%"><p></p></div>
+            <div class="w3-col" style="width:40%">
+                <div class="w3-card-4">
+                    <div class="w3-container w3-blue">
+                        <h2>Silahkan Login</h2>
                     </div>
+                    <form class="w3-container" method="POST" action="<?php echo site_url('auth/autentikasi');?>">
+                        <p>      
+                            <label class="w3-text-blue"><b>Email</b></label>
+                            <input class="w3-input w3-border w3-sand" name="email" type="email">
+                        </p>
+                        <p>      
+                            <label class="w3-text-blue"><b>Password</b></label>
+                            <input class="w3-input w3-border w3-sand" name="pass" type="password">
+                        </p>
+                        <p>
+                            <button class="w3-btn w3-blue">Masuk</button>
+                        </p>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password*</label>
-                    <input type="password" name="password" value="<?= set_value('password') ?>" required class="form-control" id="password">
-                    <div class="invalid-feedback">
-                        <?= form_error('password') ?>
-                    </div>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox"> Remember me</label>
-                </div>
-                
-                <!-- <input type="submit" class="button button-primary" value="Login"> -->
-            </form>
-            <button name="login" class="btn btn-primary" id="login" onclick="login()">Login</button>
-            <br />
-            <br />
-            
-            <div class="alert alert-success" id="loginvalidation" hidden>
-                    
-            </div> 
+                <div class="w3-panel w3-blue w3-display-container">
+                    <?php echo $this->session->flashdata('msg');?>
+                </div>                  
+            </div>
+            <div class="w3-col" style="width:30%"><p></p></div>
+        </div> -->
 
-            
+        
 
+        <form method="POST" action="<?php echo site_url('auth/autentikasi');?>">
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="Email">
         </div>
-        <div class="col-md-6 col-xs-6">
-            <img src="https://media.istockphoto.com/id/1426988809/photo/security-password-login-online-concept-hands-typing-and-entering-username-and-password-of.webp?b=1&s=170667a&w=0&k=20&c=AJD5Wv30lmyILccJyMpQGhkmh0VhZ5WNDtk53MO1OVM=" class="img-rounded" alt="Cinque Terre">
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" name="pass" class="form-control" id="pass" placeholder="Password">
         </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default">Login</button>
+        </form>
+        <div id="loginmessage">
+            <?php echo $this->session->flashdata('msg');?>
+        </div> 
 
     </div>
-  </div>
  </body>
 </html>
 
