@@ -1,15 +1,11 @@
 <html>
   <?php $this->load->view('_partials/head.php') ?>
+  
   <body>
 
   <?php $this->load->view('_partials/navbar.php') ?>
 
-  
-
   <div class="container"> 
-    <br />
-    <br />
-    <br />
 
     <textarea name="tempcopy" class="form-control" id="tempcopy" rows="3" style="display:none"></textarea>
     
@@ -161,12 +157,15 @@
         
       </div>
     </div>
+
+    <?php $this->load->view('_partials/footer.php') ?>
   
   </div>
-  <div style="clear:both"></div>
-  <br />
+  <!-- <div style="clear:both"></div>
+  <br /> -->
 
- </body>
+
+</body>
 </html>
 
 <?php $this->load->view('_partials/js.php') ?>

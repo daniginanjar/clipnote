@@ -5,9 +5,10 @@ class clipnote_model extends CI_Model {
 
     private $table = "notes";
 
-    function fetch_data($query){
+    function fetch_data($query,$id){
         $this->db->select("*");
         $this->db->from("$this->table");
+        $this->db->where("created_by", $id);
 
         if($query !=''){
             $this->db->like('notes', $query);

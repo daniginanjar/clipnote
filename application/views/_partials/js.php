@@ -95,10 +95,15 @@ function updatenote(){
 }
 
 function load_data(query){
+  var id = <?php echo $this->session->userdata('id'); ?>;  
+
   $.ajax({
     url:"<?php echo base_url(); ?>clipnote/fetch",
     method:"POST",
-    data:{query:query},
+    data:{
+      id:id,
+      query:query
+    },
     success:function(data){
       $('#result').html(data);
     }
@@ -153,6 +158,27 @@ function deletenote(id){
   });
 
 }
+
+function deleteuser(id){
+  $.ajax({
+    url:"<?php echo base_url(); ?>user/delete",
+    method:"POST",
+    data:{id:id},
+    success:function(){
+      document.getElementById("saveresult").innerHTML = "User Deleted Successfuly"; 
+
+      window.setTimeout(function() {
+        $("#saveresult").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove(); 
+        });
+      }, 5000);
+
+      window.location.replace("<?php echo base_url(); ?>user");
+    }
+  });
+
+}
+
 
 function clearformsave(){
   myEditor.setData("");

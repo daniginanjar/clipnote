@@ -31,21 +31,57 @@ class Auth extends CI_Controller {
                     $this->session->set_userdata('logged',TRUE);
                     $this->session->set_userdata('user',$email);
                     $id=$x['id'];
-                    if($x['type']=='creator'){ //Creator
+                    if($x['type']=='CREATOR'){ //Creator
                         $name = $x['name'];
                         $this->session->set_userdata('access','Creator');
                         $this->session->set_userdata('id',$id);
                         $this->session->set_userdata('name',$name);
                         redirect('clipnote');
 
-                    }else if($x['type']=='user'){ //User
+                    }else if($x['type']=='SUPERADMIN'){ //Superadmin
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Superadmin');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }else if($x['type']=='ADMINISTRATOR'){ //Administrator
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Administrator');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }else if($x['type']=='SUPERUSER'){ //Superuser
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Superuser');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }else if($x['type']=='USER'){ //User
                         $name = $x['name'];
                         $this->session->set_userdata('access','User');
                         $this->session->set_userdata('id',$id);
                         $this->session->set_userdata('name',$name);
                         redirect('clipnote');
 
+                    }else if($x['type']=='CUSTOMER'){ //Customer
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Customer');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
+                    }else if($x['type']=='GUEST'){ //Guest
+                        $name = $x['name'];
+                        $this->session->set_userdata('access','Guest');
+                        $this->session->set_userdata('id',$id);
+                        $this->session->set_userdata('name',$name);
+                        redirect('clipnote');
+
                     }
+
                 }else{
                     $url=base_url('auth');
                     echo $this->session->set_flashdata('msg','<span onclick="this.parentElement.style.display=`none`" class="w3-button w3-large w3-display-topright">&times;</span>

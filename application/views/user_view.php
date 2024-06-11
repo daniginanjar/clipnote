@@ -1,61 +1,108 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>User Management</title>
-</head>
+<html>    
+<?php $this->load->view('_partials/head.php') ?>
 <body>
-    <h1>User Management</h1>
-    <h2>Create User</h2>
-    <form action="<?= base_url('user/create') ?>" method="post">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Create</button>
-    </form>
+<?php $this->load->view('_partials/navbar.php') ?>
 
-    <h2>Users List</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= $user['id'] ?></td>
-                    <td><?= $user['username'] ?></td>
-                    <td><?= $user['email'] ?></td>
-                    <td>
-                        <a href="<?= base_url('user/edit/'.$user['id']) ?>">Edit</a>
-                        <a href="<?= base_url('user/delete/'.$user['id']) ?>" onclick="return confirm('Are you sure?')">Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="container">
+        
 
-    <?php
-        if(isset($data['note'])){
-            echo $data['note'];
-        } else{
-            echo 'hadeh';
-        }
-    ?>
+        <div class="col-md-12 col-xs-12" style="border-left-style: solid; background-color:#f2efef;">
+            <div class="jumbotron">
+                <h1>Admin Page</h1>      
+                <p>welcome <?php echo $this->session->userdata('name'); ?></p>
+            </div>
 
-    <?php if (isset($data['coba'])){
+            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Create New User</button>
+            <div id="demo" class="collapse">
+                <h2>Create User</h2>
+                <form action="<?= base_url('user/create') ?>" method="post">
+                    <div class="form-group col-md-6 col-xs-6">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group col-md-6 col-xs-6">
+                        <label for="username">User Name</label>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="User Name" required>
+                    </div>            
+                    <div class="form-group col-md-6 col-xs-6">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>                
+                    <div class="form-group col-md-6 col-xs-6">
+                        <label for="pwd">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group col-md-6 col-xs-6">                    
+                        <label for="pwd">User Type</label>
+                        <select class="form-control" id="usertype" name="usertype">
+                            <option>CREATOR</option>
+                            <option>SUPERADMIN</option>
+                            <option>ADMINISTRATOR</option>
+                            <option>SUPERUSER</option>
+                            <option>USER</option>
+                            <option>CUSTOMER</option>
+                            <option>GUEST</option>                                                                    
+                        </select>
+                    </div>
+                    
+                    <div class="form-group col-md-6 col-xs-6">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                    
+                </form>  
+            </div>
+            
+                              
+        </div>
+            
+        <div class="col-md-12 col-xs-12" style="border-left-style: solid; background-color:#f2efef;">
+        
+            <h2>User List</h2>
+            
+            <div class="table-responsive">          
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>                        
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>User Type</th>
+                        <th>Active</th>                      
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><?= $user['id'] ?></td>
+                            <td><?= $user['name'] ?></td>                            
+                            <td><?= $user['username'] ?></td>
+                            <td><?= $user['email'] ?></td>
+                            <td><?= $user['type'] ?></td>
+                            <td><?= $user['user_status'] ?></td>                            
+                            <td>
+                                <button class="btn-primary" onclick="edituser(<?php echo $user['id'] ?>)">
+                                    <a href="<?= base_url('user/edit/'.$user['id']) ?>">Edit</a>
+                                </button>
+                                <button class="btn-danger" onclick="deleteuser(<?php echo $user['id'] ?>)">
+                                    Delete                                                       
+                                </button>                                                                                    
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-    } ?>
-        <h2>Edit User</h2>
-        <form action="<?= base_url('user/update/'.$user['id']) ?>" method="post">
-            <input type="text" name="name" value="<?= $user['username'] ?>" required>
-            <input type="email" name="email" value="<?= $user['email'] ?>" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Update</button>
-        </form>
-    <?php  ?>
+        </div>
+    
+    </div>
+    <h5 id="saveresult"></h5>
+
+<?php $this->load->view('_partials/footer.php') ?>
 </body>
 </html>
+
+<?php $this->load->view('_partials/js.php') ?>

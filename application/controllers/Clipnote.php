@@ -19,24 +19,29 @@ class Clipnote extends CI_Controller {
   function save(){
     $notes = $this->input->post('notes');
     $tags = $this->input->post('tags');
-    $created_by = 1;
-    $updated_by = 1;
+    $created_by = $this->session->userdata('id');
+    $updated_by = $this->session->userdata('id');
 
-    $data = array(
-      'notes' => $notes,
-      'tags' => $tags,
-      'created_by' => $created_by,
-      'updated_by' => $updated_by
-    );
+    if($notes == ''){
+      $this->session->set_flashdata('error','Pls enter notes');
+      redirect('clipnote');
+    }else{
+      $data = array(
+        'notes' => $notes,
+        'tags' => $tags,
+        'created_by' => $created_by,
+        'updated_by' => $updated_by
+      );
 
-    $this->load->model('clipnote_model');
-    $insert = $this->clipnote_model->save($data);
+      $this->load->model('clipnote_model');
+      $insert = $this->clipnote_model->save($data);
 
-    if($insert==true){
-      $this->load->view('v_clipnote');
-    } else {
-      echo "saving data failed";
-    }
+      if($insert==true){
+        $this->load->view('v_clipnote');
+      } else {
+        echo "saving data failed";
+      }
+    }    
   }
 
   function delete(){
@@ -55,6 +60,7 @@ class Clipnote extends CI_Controller {
     
     $output = '';
     $query = '';
+    $id = $this->input->post('id');
 
     $this->load->model('clipnote_model');
 
@@ -62,7 +68,7 @@ class Clipnote extends CI_Controller {
       $query = $this->input->post('query');
     }
 
-    $data = $this->clipnote_model->fetch_data($query);
+    $data = $this->clipnote_model->fetch_data($query,$id);
 
     if($data->num_rows() > 0){ 
       foreach($data->result() as $row){

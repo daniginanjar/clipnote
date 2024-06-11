@@ -7,7 +7,7 @@
     <!-- Add Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />   
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">   -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Add CKEditor -->    
     <script src="<?php echo base_url(); ?>assets/ckeditor5-build-classic/ckeditor.js"></script>

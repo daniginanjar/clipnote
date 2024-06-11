@@ -3,21 +3,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
 
-    public function __construct() {
-        parent::__construct();
+    function __construct(){
+		parent::__construct();
         $this->load->model('User_model');
-    }
+		if($this->session->userdata('logged') !=TRUE){
+            $url=base_url('auth');
+            redirect($url);
+		};
+	}
 
-    public function index() {
-        $data['users'] = $this->User_model->get_all_users();
-        $this->load->view('user_view', $data);
+    public function index() {        
+        if($this->session->userdata('logged') !=TRUE){
+            $this->load->view('login_form');
+        }else{
+            $data['users'] = $this->User_model->get_all_users();
+            $this->load->view('user_view', $data);
+        };
     }
 
     public function create() {
         $data = array(
-            'username' => $this->input->post('name'),
+            'name' => $this->input->post('name'),
+            'username' => $this->input->post('username'),            
             'email' => $this->input->post('email'),
-            'password' => password_hash($this->input->post('password'),PASSWORD_DEFAULT)
+            'password' => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+            'type'=> $this->input->post('usertype'),
+            'user_status'=> 1            
         );
         $this->User_model->insert_user($data);
         redirect('user');
@@ -47,7 +58,8 @@ class User extends CI_Controller {
         redirect('user');
     }
 
-    public function delete($id) {
+    public function delete() {
+        $id = $this->input->post('id');
         $this->User_model->delete_user($id);
         redirect('user');
     }
