@@ -32,6 +32,8 @@ function login(){
 
 }
 
+
+
 function savenote(){
   document.getElementById("tempnote").value = myEditor.getData();
   var notes = document.getElementById("tempnote").value;
@@ -218,6 +220,11 @@ $(document).ready(function(){
     } else {
       load_data();
     }
+  });
+
+  $(".delete-user").click(function () { 
+      var text = $(this).val(); 
+      $("#modal_body").html(text); 
   });
 
 });
