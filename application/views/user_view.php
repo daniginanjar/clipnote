@@ -6,17 +6,16 @@
 
     <div class="container">
         
-
         <div class="col-md-12 col-xs-12" style="border-left-style: solid; background-color:#f2efef;">
             <div class="jumbotron">
                 <h1>Admin Page</h1>      
                 <p>welcome <?php echo $this->session->userdata('name'); ?></p>
             </div>
 
-            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Create New User</button>
-            <div id="demo" class="collapse">
+            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#usercreation">Create New User</button>
+            <div id="usercreation" class="collapse">
                 <h2>Create User</h2>
-                <form action="<?= base_url('user/create') ?>" method="post">
+                <form action="<?= base_url('user/create') ?>" method="post" id="myform">
                     <div class="form-group col-md-6 col-xs-6">
                         <label for="name">Name</label>
                         <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
@@ -83,10 +82,10 @@
                             <td><?= $user['type'] ?></td>
                             <td><?= $user['user_status'] ?></td>                            
                             <td>
-                                <button class="btn-primary" onclick="edituser(<?php echo $user['id'] ?>)">
-                                    <a href="<?= base_url('user/edit/'.$user['id']) ?>">Edit</a>
-                                </button>
-                                <button type="button" class="btn-danger delete-user" data-toggle="modal" data-target="#exampleModal" value="<?php echo $user['id'] ?>">
+                                <button type="button" id="edit-user" class="btn btn-primary edit-user" data-toggle="modal" data-target="#usermodal" value="<?php echo $user['id'] ?>">
+                                    Edit                                                       
+                                </button> 
+                                <button type="button" id="delete-user" class="btn btn-danger delete-user" data-toggle="modal" data-target="#usermodal" value="<?php echo $user['id'] ?>">
                                     Delete                                                       
                                 </button>                                     
                                                                                          
@@ -101,27 +100,26 @@
     
     </div>    
 
-    <!-- modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
-        <div class="modal-dialog"> 
-            <div class="modal-content"> 
-                <div class="modal-header"> 
-                    <h5 class="modal-title" id="exampleModalLabel"> Entered Data</h5> 
+    <!-- Modal -->
+    <div id="usermodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="modal-title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
                     
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
-                        <span aria-hidden="true">×</span> 
-                    </button> 
-                </div> 
+                </div>
+            </div>
 
-                <div class="modal-body"> 
-                    <p id="modal_body"></p> 
-
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Yes</button> 
-                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#exampleModal">No</button>                                     
-                </div> 
-            </div> 
-        </div> 
-    </div> 	
+        </div>
+    </div>
 
 <?php $this->load->view('_partials/footer.php') ?>
 </body>

@@ -33,7 +33,6 @@ function login(){
 }
 
 
-
 function savenote(){
   document.getElementById("tempnote").value = myEditor.getData();
   var notes = document.getElementById("tempnote").value;
@@ -223,9 +222,49 @@ $(document).ready(function(){
   });
 
   $(".delete-user").click(function () { 
-      var text = $(this).val(); 
-      $("#modal_body").html(text); 
+      var id = $(this).val();       
+      document.getElementById("modal-title").innerText = "User Deletion";
+      $(".modal-body").html("<p>Are you sure to delete this user id ("+id+")?</p>");
+      $(".modal-footer").html('<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteuser('+id+')">Yes</button><button type="button" class="btn btn-default" data-dismiss="modal">No</button>');
+      
   });
+
+  $(".edit-user").click(function () { 
+      var id = $(this).val();   
+      var modalbody = $(".modal-body").html("");
+
+      document.getElementById("modal-title").innerText = "User Update";
+
+      $(".modal-body").append('<div class="col-md-12 col-xs-12" style="border-left-style: solid; background-color:#f2efef;">');
+
+      $(".modal-body").append('<form action="<?= base_url('user/create'); ?>" method="post" id="myform">');
+      $(".modal-body").append('<div class="form-group col-md-6 col-xs-6">');
+      $(".modal-body").append('<label for="name">Name</label>');
+      $(".modal-body").append('<input type="text" name="name" class="form-control" id="name" placeholder="Name" required value="'+id+'">');
+      $(".modal-body").append('</div>');
+      $(".modal-body").append('<div class="form-group col-md-6 col-xs-6">');
+      $(".modal-body").append('<label for="username">User Name</label>');
+      $(".modal-body").append('<input type="text" name="username" class="form-control" id="username" placeholder="User Name" required>');
+      $(".modal-body").append('</div>');
+      $(".modal-body").append('<div class="form-group col-md-6 col-xs-6">');
+      $(".modal-body").append('<label for="email">Email address</label>');
+      $(".modal-body").append('<input type="email" name="email" class="form-control" id="email" placeholder="Email" required>');
+      $(".modal-body").append('</div>');
+      $(".modal-body").append('<div class="form-group col-md-6 col-xs-6">');
+      $(".modal-body").append('<label for="pwd">Password</label>');
+      $(".modal-body").append('<input type="password" name="password" class="form-control" id="password" placeholder="Password" required>');
+      $(".modal-body").append('</div>');
+      $(".modal-body").append('<div class="form-group col-md-6 col-xs-6">');
+      $(".modal-body").append('<label for="pwd">User Type</label>');
+      $(".modal-body").append('<select class="form-control" id="usertype" name="usertype"><option>CREATOR</option><option>SUPERADMIN</option><option>ADMINISTRATOR</option><option>SUPERUSER</option><option>USER</option><option>CUSTOMER</option><option>GUEST</option></select>');
+      $(".modal-body").append('</div>');      
+
+      $(".modal-body").append('</form> '); 
+      $(".modal-body").append('</div> '); 
+           
+            
+      $(".modal-footer").html('<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateuser('+id+')">Update</button><button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>');      
+  });  
 
 });
 </script>
