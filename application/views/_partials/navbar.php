@@ -14,6 +14,14 @@
         <span class="icon-bar"></span>                        
       </button>
       <a class="navbar-brand" href="<?php echo base_url(); ?>clipnote"><span class="glyphicon glyphicon-home"></span> Clipnote</a>
+      <div class="col-xs-6 visible-xs">
+      <!-- <input type="text" name="search_text" id="search_text" placeholder="Enter Any Keywords" class="form-control">
+      <button class="btn btn-danger navbar-btn">New</button>
+       -->
+      
+      </div>
+      
+       
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">        

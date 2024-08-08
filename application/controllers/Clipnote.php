@@ -75,23 +75,29 @@ class Clipnote extends CI_Controller {
         $output .='
         <div class="list-group">  
       
-        <li href="#" class="list-group-item list-group-item-action">
+        <li href="#" class="list-group-item list-group-item-action" >
+        
+        
           <div class="d-flex w-100 justify-content-between">      
             <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
+            <button type="button" class="btn btn-xs btn-light" onclick="editnote('.$row->id.')">Edit Note</button>
+                        
             <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
-            <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button> 
-            <small class="text-muted" style="color:green"> <b>Last Update :'.$row->updated_time.'</b></small>
-            <small class="text-muted" style="color:red; display:none;"> <b>- Note ID('.$row->id.')</b></small>            
-          </div>
-          
-          <p class="mb-1">'.$row->notes.'</p>
-          <small class="text-muted " style="color:blue"><b>TAGS: '.$row->tags.'</b></small>          
 
-          <span class="pull-right">
-            <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
-            <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
-            <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button>   
-          </span>          
+            <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button> 
+            <button type="button" id="buttonshowhide'.$row->id.'"  class="btn btn-xs btn-primary" onclick="showhide('.$row->id.')">Expand</button>             
+            <hr>            
+            <small class="text-muted" style="color:green"> <button type="button" class="btn btn-xs btn-dark"><b>Last Update :'.$row->updated_time.'</b></button></small>
+            <small class="text-muted" style="color:red; display:none;"> <b>- Note ID('.$row->id.')</b></small>       
+            <br> 
+            <small class="text-muted " style="color:blue"><b>TAGS: <button type="button" class="btn btn-xs btn-dark">'.$row->tags.'</button></b></small>     
+          </div>       
+                                      
+          <div id="showhide'.$row->id.'" style="height:200px; overflow:hidden;">
+          <p class="mb-1" >'.$row->notes.'</p>
+          </div>
+                                                                          
+                   
         </li>        
         </div>
         ';
@@ -107,6 +113,7 @@ class Clipnote extends CI_Controller {
   function fetchbyid($id){
     $data = $this->clipnote_model->get_record_by_id($id);
     return $this->load->view('v_clipnote',$data) ;
+    return $data;
   }
 
   function update(){

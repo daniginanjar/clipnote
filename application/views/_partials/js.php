@@ -111,6 +111,44 @@ function load_data(query){
   });
 };
 
+function showhide(id){
+  var showhideid = "#showhide"+id;
+  var showhideheight = "showhide"+id;
+  var buttonshowhideid = "buttonshowhide"+id;
+
+  if (document.getElementById(buttonshowhideid).innerHTML == "Expand"){
+    document.getElementById(buttonshowhideid).innerHTML = "Collapse"; 
+    document.getElementById(showhideheight).style.height = "auto";
+    document.getElementById(showhideheight).style.overflow = "auto"; 
+  } else {
+    document.getElementById(buttonshowhideid).innerHTML = "Expand";  
+    document.getElementById(showhideheight).style.height = "200px";  
+    document.getElementById(showhideheight).style.overflow = "hidden";  
+    
+  }
+  //$(showhideid).toggle(1000);
+  //document.getElementById(showhideid).style.height = "1000px";
+
+}
+
+function newnote(){
+  $('#newnoteform').toggle(100);
+}
+
+function editnote(id){
+
+  $.ajax({
+    url:"<?php echo base_url(); ?>clipnote/fetchbyid/"+id,
+    method:"POST",
+    data:{id:id, tags:tags},
+    success:function(response){
+      $('#newnoteform').toggle(100);
+      //$('#tags').val(response.tags);     
+    }
+  })  
+  
+}
+
 function copynote(id){
   $.ajax({
     url:"<?php echo base_url(); ?>clipnote/copynote",
@@ -211,6 +249,8 @@ $(document).ready(function(){
     document.getElementById("search_text").value = '';
     document.getElementById("search_text").focus();
   });  
+
+  
 
   $('#search_text').keyup(function(){
     var search = $(this).val();
