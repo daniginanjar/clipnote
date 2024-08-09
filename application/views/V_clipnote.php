@@ -28,12 +28,14 @@
         if (isset($id)){
 
           echo '
-          <div class="updatenoteform" id="updatenoteform">
+          <div class="updatenoteform" id="updatenoteform" >
               <div class="card card-body">
-                <form action="'. base_url().'clipnote/update " method="POST" class="float-left" style="display:none">
+                <form action="'. base_url().'clipnote/update " method="POST" class="float-left" style="display:auto">
                 <h2 align="center">Update Notes</h2><br />
                 <button name="update" class="btn btn-xs btn-primary" id="update" onclick="updatenote()">Update Note</button>
                 <button name="clearform" class="btn btn-xs btn-warning" id="clearform" onclick="clearformupdate()">Clear Form</button>
+                <button name="cancelupdate" class="btn btn-xs btn-light" id="cancelupdate" onclick="home()">Cancel</button>
+                
                 
                 <div class="form-group">
                   <textarea name="tempnote" class="form-control" id="tempnote" rows="3" style="display:none">'.$notes.'</textarea>
@@ -99,9 +101,11 @@
           <div class="newnoteform" id="newnoteform" style="display:none">
             <div class="card card-body">
               <form action="'. base_url().'clipnote/save " method="POST" class="float-left" >
-                <h2 align="center">Create New Notes</h2><br />
+                <h2 align="center" id="formtitle">Create New Notes</h2><br />
                 <button name="savenote" class="btn btn-xs btn-primary" id="savenote" onclick="savenote()">Save Note</button>
                 <button name="clearform" class="btn btn-xs btn-warning" id="clearform" onclick="clearformsave()">Clear Form</button>
+                <button name="cancelnewnote" class="btn btn-xs btn-light" id="cancelnewnote" onclick="cancelnewnote()">Cancel</button>
+              
                 
                 <div class="form-group">
                   <textarea name="tempnote" class="form-control" id="tempnote" rows="3" style="display:none"></textarea>
@@ -121,6 +125,8 @@
                 </div>
                 <button name="savenote" class="btn btn-xs btn-primary" id="savenote" onclick="savenote()">Save Note</button>
                 <button name="clearform" class="btn btn-xs btn-warning" id="clearform" onclick="clearformsave()">Clear Form</button>
+                <button name="cancelnewnote" class="btn btn-xs btn-light" id="cancelnewnote" onclick="cancelnewnote()">Cancel</button>
+              
               </form>
             </div>
           </div>

@@ -1,5 +1,9 @@
 <script>
 
+function home(){
+  window.open("<?php echo base_url(); ?>", "_self");
+}
+
 function login(){
   var username = document.getElementById("username").value;
   var password = document.getElementById("password").value;
@@ -54,11 +58,12 @@ function savenote(){
             });
         }, 5000);
 
-        clearformsave();
+        clearformsave();                 
       
         load_data();
     }
-  })
+  });
+  
 }
 
 function updatenote(){
@@ -91,8 +96,11 @@ function updatenote(){
       clearformupdate();
       
       load_data();
+      
     }
-  })
+  });
+  
+  
 }
 
 function load_data(query){
@@ -132,22 +140,33 @@ function showhide(id){
 }
 
 function newnote(){
-  $('#newnoteform').toggle(100);
+  myWindow = window.open("<?php echo base_url(); ?>clipnote/newnote", "newnote", "width=500,height=450");   // Opens a new window  
+}
+
+function closenewnote(){  
+  //let new_window =
+  //open(location, '_self');
+  //new_window.close();
+  
+  window.close();
+  if (window.opener && !window.opener.closed) {
+  window.opener.location.reload();
+  }
+}
+
+function TutupTab(){
+  var tab = document.getElementById('tab-to-close');   
+  if (tab) {     
+    tab.style.display = 'none'; 
+  } 
 }
 
 function editnote(id){
 
-  $.ajax({
-    url:"<?php echo base_url(); ?>clipnote/fetchbyid/"+id,
-    method:"POST",
-    data:{id:id, tags:tags},
-    success:function(response){
-      $('#newnoteform').toggle(100);
-      //$('#tags').val(response.tags);     
-    }
-  })  
-  
+  myWindow = window.open("<?php echo base_url(); ?>clipnote/fetchbyid/"+id, "editnote", "width=500,height=auto");
+    
 }
+
 
 function copynote(id){
   $.ajax({

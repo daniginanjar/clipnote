@@ -76,16 +76,13 @@ class Clipnote extends CI_Controller {
         <div class="list-group">  
       
         <li href="#" class="list-group-item list-group-item-action" >
-        
-        
+                
           <div class="d-flex w-100 justify-content-between">      
-            <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button>
-            <button type="button" class="btn btn-xs btn-light" onclick="editnote('.$row->id.')">Edit Note</button>
-                        
+            <!-- <button type="button" class="btn btn-xs btn-warning"><a id="editnote" href="'.base_url().'clipnote/fetchbyid/'.$row->id.'">Edit</a></button> -->
+            <button type="button" class="btn btn-xs btn-Success" id="buttonshowhide'.$row->id.'"   onclick="showhide('.$row->id.')">Expand</button>                       
+            <button type="button" class="btn btn-xs btn-primary" onclick="editnote('.$row->id.')">Edit Note</button>                        
             <button type="button" class="btn btn-xs btn-primary" onclick="copynote('.$row->id.')">Copy</button>
-
             <button type="button" class="btn btn-xs btn-danger" onclick="deletenote('.$row->id.')">Delete</button> 
-            <button type="button" id="buttonshowhide'.$row->id.'"  class="btn btn-xs btn-primary" onclick="showhide('.$row->id.')">Expand</button>             
             <hr>            
             <small class="text-muted" style="color:green"> <button type="button" class="btn btn-xs btn-dark"><b>Last Update :'.$row->updated_time.'</b></button></small>
             <small class="text-muted" style="color:red; display:none;"> <b>- Note ID('.$row->id.')</b></small>       
@@ -112,8 +109,7 @@ class Clipnote extends CI_Controller {
 
   function fetchbyid($id){
     $data = $this->clipnote_model->get_record_by_id($id);
-    return $this->load->view('v_clipnote',$data) ;
-    return $data;
+    return $this->load->view('veditnote',$data) ;    
   }
 
   function update(){
@@ -143,6 +139,10 @@ class Clipnote extends CI_Controller {
     $data = $this->clipnote_model->get_record_by_id($id);
     
     echo $data['notes']; 
+  }
+
+  function newnote(){
+    $this->load->view('vnewnote');
   }
 
 }
